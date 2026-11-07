@@ -314,7 +314,6 @@ I also learned that a monitoring application should not simply display informati
 
 ## Phase 3 — Refactoring and Introduction to Automated Testing
 
-**Date:** 7 November 2026
 
 ### 1. Problem
 
@@ -394,3 +393,79 @@ Separating the code into functions made it easier to identify the responsibiliti
 - Learn mocking to simulate HTTP responses and failures.
 - Test timeouts and connection errors.
 - Explore Docker and GitHub Actions.
+
+## Phase 4 — Automated Testing with Pytest
+
+
+### Problem
+
+I wanted to verify that my Health Monitor handled different HTTP responses and network failures correctly without relying entirely on manual testing or external websites.
+
+### What I Needed to Learn
+
+- How to write and execute automated tests using Pytest.
+- How assertions verify expected results.
+- How to use mocking to simulate HTTP responses.
+- How to test connection failures and timeouts.
+- How to verify the application after introducing automated tests.
+
+### Implementation
+
+I created `tests/test_monitor.py` and implemented seven automated tests.
+
+The first four tests verify health classification and summary calculation.
+
+The remaining three tests use `unittest.mock.patch()` to simulate HTTP responses and network errors without making real requests.
+
+I learned that `return_value` can simulate a successful function call with a specified result, while `side_effect` can simulate exceptions.
+
+### Actual Testing Results
+
+I executed:
+
+`python -m pytest -v`
+
+**Results: 7 passed in 0.42 seconds.**
+
+| Test | Result |
+|---|---|
+| Healthy application | PASSED |
+| Slow application | PASSED |
+| Unhealthy application | PASSED |
+| Summary calculation | PASSED |
+| HTTP 500 response | PASSED |
+| Connection failure | PASSED |
+| Request timeout | PASSED |
+
+I also executed `python monitor.py` to confirm the application continued working after adding the tests.
+
+The monitoring results were:
+
+- Example Website: HEALTHY, 494.24 ms.
+- Python Website: HEALTHY, 513.11 ms.
+- Unavailable Test Service: DOWN, connection refused.
+
+The application successfully generated the monitoring summary and JSON report.
+
+### Challenges and Solutions
+
+A key challenge was understanding how to test HTTP failures without depending on external websites.
+
+I explored mocking and used `patch()` to replace the real HTTP request function during tests.
+
+This allowed me to simulate server errors, connection failures and timeouts in a controlled way.
+
+### What I Learned
+
+- Automated tests help verify expected application behaviour.
+- Mocking makes tests faster and independent of network availability.
+- Assertions identify unexpected results.
+- Separating application logic into functions improves testability.
+- Running the application after testing helps confirm that existing functionality still works.
+
+### Future Improvements
+
+- Add tests for JSON report generation.
+- Add configuration validation.
+- Explore Docker containerisation.
+- Configure GitHub Actions to run automated tests on each push.

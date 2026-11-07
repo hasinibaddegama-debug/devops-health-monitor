@@ -83,3 +83,25 @@ I also learned why separating business logic from application execution makes au
 I plan to use Pytest to verify individual functions and learn how to use mocking to simulate HTTP responses, connection failures and timeouts.
 
 I will run the tests locally and verify their results before considering the automated testing work complete.
+
+## Phase 4 — AI Assistance with Automated Testing
+
+### How I Used AI
+
+I used ChatGPT to understand automated testing in Python, including Pytest, assertions and mocking.
+
+ChatGPT helped me explore how to write tests for application health classification, summary calculations, HTTP errors, connection failures and request timeouts.
+
+### How I Verified AI Suggestions
+
+I reviewed the suggested test cases and executed them locally using Pytest.
+
+All seven tests passed in 0.42 seconds.
+
+I also ran the Health Monitor normally to verify that the application continued monitoring services and generating JSON reports correctly.
+
+### What I Learned
+
+I learned how mocking can simulate HTTP responses and exceptions without relying on external websites.
+
+I also learned how automated tests can help detect unexpected changes when refactoring or extending an application.
