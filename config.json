@@ -1,0 +1,19 @@
+
+{
+  "applications": [
+    {
+      "name": "Example Website",
+      "url": "https://example.com"
+    },
+    {
+      "name": "Python Website",
+      "url": "https://www.python.org"
+    },
+    {
+      "name": "Unavailable Test Service",
+      "url": "http://127.0.0.1:9999"
+    }
+  ],
+  "timeout_seconds": 5,
+  "slow_threshold_ms": 2000
+}
