@@ -1,6 +1,6 @@
 # Research Log — DevOps Health Monitor
 
-## 1st Step
+## Phase 1 — Setup the environment and Writing the 1st phase of Application
 
 ### 1. Project Overview
 
@@ -168,3 +168,146 @@ I also used ChatGPT to help explain unfamiliar Python concepts and troubleshoot 
 - Improve error handling and configuration validation.
 - Add automated tests using pytest.
 - Explore Docker and GitHub Actions for DevOps automation.
+
+## Phase 2 — JSON Report Generation and Data Handling
+
+**Date:** 7 November 2026
+
+### 1. Problem I Wanted to Solve
+
+In the previous implementation, my Python Health Monitor checked multiple applications and displayed their HTTP status codes, response times and health conditions in the terminal.
+
+However, the monitoring results were not saved, making it difficult to review them later.
+
+I decided to extend the application to collect monitoring results, calculate a summary and generate a structured JSON report.
+
+### 2. What I Needed to Learn
+
+During this phase, I explored the following Python concepts:
+
+- Lists and dictionaries for storing structured data.
+- Iterating through collections and calculating summary statistics.
+- Generating JSON files using the built-in `json` module.
+- Recording timestamps using the `datetime` module.
+- Creating directories and managing file paths using `pathlib`.
+
+### 3. Python Lists and Dictionaries
+
+I learned that a Python list can store multiple values, while a dictionary stores information using key-value pairs.
+
+I used a list called `results` to collect the monitoring results for each application.
+
+Each result was stored as a dictionary containing the application name, URL, HTTP status code, response time, health status and error details.
+
+I used `results.append(result)` to add each application's result to the list.
+
+Since I already have experience with Java, I found it helpful to compare Python lists with Java's `ArrayList` and Python dictionaries with Java's `Map`.
+
+**What I learned:** Lists and dictionaries provide a simple way to organise structured information without creating separate classes for every data structure.
+
+### 4. Generating JSON Reports
+
+I used Python's built-in `json` module to convert the collected monitoring results into a JSON report.
+
+The report contains:
+
+- A UTC timestamp.
+- A summary of application health statuses.
+- Individual application monitoring results.
+- Error information for unavailable services.
+
+I used `json.dump(report, file, indent=4)` to write the report into `health_report.json`.
+
+**Why I chose JSON:** JSON is lightweight, human-readable and widely supported. It can also be processed by other applications and automation tools.
+
+### 5. Learning About Timestamps
+
+I used `datetime.now(timezone.utc).isoformat()` to record the time when the monitoring report was generated.
+
+I learned that UTC timestamps are useful in monitoring systems because applications and servers may operate in different time zones.
+
+My generated report included the following timestamp:
+
+`2026-11-07T12:23:44.784243+00:00`
+
+This identifies when the monitoring report was created.
+
+### 6. Filesystem Operations Using pathlib
+
+I learned how to create directories and manage file paths using Python's `pathlib` module.
+
+I used:
+
+`Path("reports")`
+
+to represent the reports directory, followed by:
+
+`mkdir(exist_ok=True)`
+
+to create the directory if it did not already exist.
+
+The application then saved the generated report to:
+
+`reports/health_report.json`
+
+**What I learned:** Using `pathlib` makes filesystem operations more readable and helps avoid manually constructing file paths.
+
+### 7. Actual Testing Results
+
+I ran the application using three configured services.
+
+| Application | HTTP Status | Response Time | Health |
+|---|---|---|---|
+| Example Website | 200 | 480.87 ms | HEALTHY |
+| Python Website | 200 | 499.01 ms | HEALTHY |
+| Unavailable Test Service | No response | N/A | DOWN |
+
+The terminal displayed the following summary:
+
+- Total Applications: 3
+- Healthy: 2
+- Slow: 0
+- Unhealthy: 0
+- Down: 1
+
+I verified that the application generated `reports/health_report.json`.
+
+I opened the generated file in VS Code and confirmed that the summary, timestamp and visible application results matched the terminal output.
+
+### 8. Problems Encountered and Solutions
+
+**Problem 1 — Handling an unavailable application**
+
+The test service at `http://127.0.0.1:9999` refused the connection because no application was listening on that port.
+
+**Solution:** I used a `try / except` block to catch network-related exceptions and record the service as DOWN.
+
+The application continued running and successfully generated the monitoring summary and JSON report.
+
+**Problem 2 — Preserving results when requests fail**
+
+A failed HTTP request does not provide a normal response object containing an HTTP status code.
+
+**Solution:** I initialised a result dictionary with default values before making each request. This allowed the application to record failed checks with a DOWN status and error message.
+
+### 9. Design Decisions
+
+- I kept the application as a command-line tool because a graphical interface was unnecessary for the problem.
+- I used Python's built-in modules for JSON processing, timestamps and filesystem operations to avoid unnecessary dependencies.
+- I separated generated reports from the source code by creating a dedicated `reports` directory.
+- I excluded generated reports from Git using `.gitignore`.
+- I chose to overwrite the existing report during each execution to keep the initial implementation simple.
+
+### 10. What I Learned
+
+This phase helped me understand how Python handles structured data and generates useful output.
+
+I also learned that a monitoring application should not simply display information. Saving structured results makes them more useful for troubleshooting, reporting and future automation.
+
+### 11. Next Improvements
+
+- Add automated unit tests using pytest.
+- Test SLOW and UNHEALTHY classifications.
+- Validate configuration values and handle invalid JSON.
+- Refactor the application into smaller functions.
+- Explore Docker and GitHub Actions for automated testing and deployment.
