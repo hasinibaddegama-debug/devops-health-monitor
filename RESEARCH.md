@@ -311,3 +311,86 @@ I also learned that a monitoring application should not simply display informati
 - Validate configuration values and handle invalid JSON.
 - Refactor the application into smaller functions.
 - Explore Docker and GitHub Actions for automated testing and deployment.
+
+## Phase 3 — Refactoring and Introduction to Automated Testing
+
+**Date:** 7 November 2026
+
+### 1. Problem
+
+The initial implementation contained most of the application logic in a single block of code.
+
+Although the application worked, it was difficult to test individual operations independently.
+
+I decided to refactor the application into smaller functions to improve readability, maintainability and testability.
+
+### 2. What I Learned
+
+**Python functions**
+
+I learned how to define reusable functions using `def`, pass parameters and return results.
+
+I separated the application into five functions:
+
+- `classify_health()` — Determines application health based on HTTP status and response time.
+- `check_application()` — Checks an application and collects monitoring results.
+- `calculate_summary()` — Calculates health statistics.
+- `save_report()` — Generates the JSON report.
+- `main()` — Coordinates the monitoring process.
+
+**Refactoring**
+
+I learned that refactoring means improving the internal structure of code without intentionally changing its external behaviour.
+
+**Application entry point**
+
+I learned how `if __name__ == "__main__":` allows Python to run the application when executed directly without automatically running it when imported by another module.
+
+This is particularly useful for automated testing.
+
+### 3. Testing and Verification
+
+After refactoring, I executed the application using:
+
+`python monitor.py`
+
+The application successfully checked three services.
+
+| Application | Response Time | Health |
+|---|---|---|
+| Example Website | 477.26 ms | HEALTHY |
+| Python Website | 492.79 ms | HEALTHY |
+| Unavailable Test Service | N/A | DOWN |
+
+The application produced the expected summary:
+
+- Total: 3
+- Healthy: 2
+- Slow: 0
+- Unhealthy: 0
+- Down: 1
+
+It also successfully generated the JSON report.
+
+This confirmed that the refactored application preserved the behaviour observed in the previous implementation.
+
+### 4. Introduction to Pytest
+
+I installed Pytest to explore automated testing in Python.
+
+I learned that Pytest discovers test functions and uses assertions to check whether actual results match expected results.
+
+I also explored how automated tests can verify health classification without depending on live websites.
+
+### 5. Challenges and Learning
+
+The main challenge was reorganising the existing monitoring logic without changing its behaviour.
+
+Separating the code into functions made it easier to identify the responsibilities of each component.
+
+### 6. Next Steps
+
+- Run the initial Pytest tests and verify their results.
+- Learn mocking to simulate HTTP responses and failures.
+- Test timeouts and connection errors.
+- Explore Docker and GitHub Actions.
