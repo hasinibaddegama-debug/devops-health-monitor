@@ -597,3 +597,89 @@ The application reported that the JSON report was saved to `reports/health_repor
 - Explore Docker image security and optimisation.
 - Improve configuration validation.
 - Investigate automated deployment.
+
+## Phase 6 — GitHub Actions Continuous Integration
+
+### Problem
+
+I wanted to automate the testing process so that my Python Health Monitor would be tested whenever changes were pushed to GitHub.
+
+Previously, I ran Pytest manually on my local computer.
+
+### What I Needed to Learn
+
+- What Continuous Integration (CI) means.
+- How GitHub Actions workflows work.
+- How YAML files define automated workflows.
+- How workflow triggers, jobs and steps work.
+- How to install dependencies and execute tests on a GitHub-hosted runner.
+
+### Implementation
+
+I created a GitHub Actions workflow named `Python Health Monitor CI`.
+
+The workflow runs when code is pushed or a pull request is opened or updated.
+
+It checks out the repository, sets up Python 3.13, installs the required dependencies and runs the automated tests using Pytest.
+
+### Problems Encountered
+
+**Problem — Workflow not appearing in GitHub Actions**
+
+After pushing the workflow file, I could not find it in the GitHub Actions tab.
+
+I investigated the repository structure and discovered that I had placed the `workflows` directory directly in the project root.
+
+**Solution**
+
+I moved `python-tests.yml` into the required `.github/workflows/` directory.
+
+I committed the correction and pushed it to GitHub.
+
+GitHub then recognised the workflow and executed it successfully.
+
+### Actual Results
+
+- Workflow: Python Health Monitor CI
+- Trigger: Push
+- Commit: `b39bf38`
+- Status: Success
+- Total execution time: 21 seconds
+- Jobs: 1 successful
+- Individual Pytest results: To be confirmed from the job logs
+
+The workflow also displayed a Node.js 20 deprecation warning for older GitHub Actions versions and a notice about an upcoming Ubuntu runner migration.
+
+### What I Learned
+
+- Continuous Integration helps verify code changes automatically.
+- GitHub Actions workflows must be placed in `.github/workflows/`.
+- YAML files define triggers, jobs and steps.
+- GitHub-hosted runners can execute automated tests without using my local computer.
+- Workflow logs and warnings are useful for troubleshooting and maintenance.
+
+### Future Improvements
+
+- Update GitHub Actions dependencies to supported versions.
+- Add automated Docker image builds.
+- Explore deployment automation.
+
+### GitHub Actions — Actual Testing Results
+
+After correcting the workflow directory structure, GitHub Actions successfully detected and executed my CI workflow.
+
+**Execution environment:**
+- Operating system: Linux (GitHub-hosted runner)
+- Python version: 3.13.18
+- Pytest version: 9.2.0
+
+**Results:**
+- Total tests: 7
+- Passed: 7
+- Failed: 0
+- Test execution time: 0.59 seconds
+- Overall workflow status: Success
+
+All seven tests passed, including health classification, summary calculation, HTTP 500 responses, connection failures and request timeouts.
+
+This verified that my automated tests also work in a Linux environment outside my local Windows development setup.

@@ -152,3 +152,43 @@ Using ChatGPT helped me understand Docker concepts and investigate errors.
 I learned the importance of verifying AI suggestions through practical testing rather than assuming they are correct.
 
 I also gained experience using Docker to package and execute a Python application.
+
+## Phase 6 — AI Assistance with GitHub Actions
+
+### How I Used AI
+
+I used ChatGPT to understand Continuous Integration, GitHub Actions and YAML workflow configuration.
+
+ChatGPT helped me create a workflow that installs Python dependencies and executes my automated Pytest tests.
+
+### Problems and Suggestions
+
+After pushing my workflow, it did not appear in GitHub Actions.
+
+I used ChatGPT to investigate the problem and identify that the workflow file was stored in the wrong directory.
+
+I corrected the folder structure and pushed the changes again.
+
+### How I Verified the Suggestions
+
+I checked the repository structure and confirmed that GitHub recognised the workflow after moving the file.
+
+I opened the GitHub Actions tab and verified that the workflow completed successfully.
+
+The successful execution confirmed that the workflow configuration was recognised and the CI job completed.
+
+### What I Learned
+
+I learned how to automate testing with GitHub Actions and how important configuration file locations are.
+
+I also learned to verify AI-generated instructions by checking actual execution results rather than relying on explanations alone.
+
+### Final Verification of GitHub Actions
+
+I verified the GitHub Actions workflow by reviewing the execution logs.
+
+The workflow successfully installed the Python dependencies and executed all seven Pytest tests on a Linux runner.
+
+All seven tests passed in 0.59 seconds.
+
+This confirmed that the suggested CI configuration worked correctly after I corrected the workflow directory structure.
