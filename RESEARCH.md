@@ -469,3 +469,131 @@ This allowed me to simulate server errors, connection failures and timeouts in a
 - Add configuration validation.
 - Explore Docker containerisation.
 - Configure GitHub Actions to run automated tests on each push.
+
+## Phase 5 — Docker Containerisation
+
+### 1. Problem I Wanted to Solve
+
+My Python Health Monitor was working locally, but it required Python and the necessary dependencies to be installed on the computer.
+
+I wanted to learn how to package the application into a Docker container so that it could run in a consistent environment across different machines.
+
+I chose Docker because containerisation is widely used in DevOps for application packaging and deployment.
+
+### 2. What I Needed to Learn
+
+During this phase, I explored:
+
+- The difference between Docker images and containers.
+- How Dockerfiles define the steps required to build an image.
+- How to choose a suitable Python base image.
+- How to install dependencies inside a Docker image.
+- How `.dockerignore` reduces unnecessary build context.
+- How to build and run Docker containers.
+- How bind mounts allow containers to save files on the host machine.
+
+### 3. Research and Implementation
+
+**Docker images and containers**
+
+I learned that a Docker image is a packaged template containing the application, runtime and dependencies.
+
+A Docker container is a running instance of an image.
+
+**Dockerfile**
+
+I created a Dockerfile using `python:3.13-slim` as the base image.
+
+I used:
+
+- `FROM` to select the Python base image.
+- `WORKDIR` to define the working directory.
+- `COPY` to add application files.
+- `RUN` to install dependencies.
+- `CMD` to specify the application startup command.
+
+I copied `requirements.txt` before the application source code so Docker could reuse the dependency installation layer when only the application code changed.
+
+**Dockerignore**
+
+I created `.dockerignore` to exclude unnecessary files such as the virtual environment, Git metadata, Python cache files and generated reports.
+
+### 4. Problems Encountered and Solutions
+
+**Problem 1 — Docker Engine connection error**
+
+When I first ran `docker info` and attempted to build the image, Docker returned an error indicating that it could not connect to the Linux Docker Engine.
+
+The Docker CLI was installed, but the Docker Engine was not accessible.
+
+**Solution:**
+
+I investigated the error and started Docker Desktop.
+
+After the Docker Engine became available, I successfully built the image.
+
+**Problem 2 — Preserving generated reports**
+
+My application generates a JSON report inside the `reports` directory.
+
+I learned that files created inside a temporary container are removed when the container is deleted unless they are stored outside its writable layer.
+
+**Solution:**
+
+I explored Docker bind mounts and connected my local `reports` directory to `/app/reports` inside the container.
+
+This allows the application to write reports to the host filesystem.
+
+### 5. Testing and Verification
+
+I built the Docker image using:
+
+`docker build -t devops-health-monitor .`
+
+The image built successfully.
+
+I then executed:
+
+`docker run --rm devops-health-monitor`
+
+The application successfully monitored three services.
+
+**First Docker execution:**
+
+| Application | HTTP Status | Response Time | Health |
+|---|---|---|---|
+| Example Website | 200 | 105.74 ms | HEALTHY |
+| Python Website | 200 | 112.82 ms | HEALTHY |
+| Unavailable Test Service | No response | N/A | DOWN |
+
+The application generated the following summary:
+
+- Total: 3
+- Healthy: 2
+- Slow: 0
+- Unhealthy: 0
+- Down: 1
+
+I also ran the container using a bind mount.
+
+During this execution, Example Website responded in 113.72 ms and Python Website responded in 82.8 ms. Both were classified as HEALTHY.
+
+The unavailable test service was correctly classified as DOWN.
+
+The application reported that the JSON report was saved to `reports/health_report.json`.
+
+### 6. What I Learned
+
+- Docker packages applications with their runtime and dependencies.
+- Docker images and containers serve different purposes.
+- Dockerfiles make application environments reproducible.
+- Docker layer caching can improve build efficiency.
+- Bind mounts allow generated files to be retained on the host computer.
+- Docker Engine connectivity is necessary to build and run containers.
+
+### 7. Future Improvements
+
+- Configure GitHub Actions to run automated tests automatically.
+- Explore Docker image security and optimisation.
+- Improve configuration validation.
+- Investigate automated deployment.

@@ -105,3 +105,50 @@ I also ran the Health Monitor normally to verify that the application continued 
 I learned how mocking can simulate HTTP responses and exceptions without relying on external websites.
 
 I also learned how automated tests can help detect unexpected changes when refactoring or extending an application.
+
+## Phase 5 — AI Assistance with Docker Containerisation
+
+### 1. How I Used AI
+
+I used ChatGPT to learn about Docker containerisation and understand how to package my Python Health Monitor into a Docker image.
+
+ChatGPT helped me understand:
+
+- The difference between Docker images and containers.
+- How to create a Dockerfile.
+- How to use `FROM`, `WORKDIR`, `COPY`, `RUN` and `CMD`.
+- Why `.dockerignore` is useful.
+- How Docker bind mounts work.
+- How to troubleshoot Docker Engine connection errors.
+
+### 2. Problems and AI Suggestions
+
+During the initial setup, Docker commands failed because the Docker CLI could not connect to the Docker Engine.
+
+I used ChatGPT to understand the error and investigate possible causes.
+
+The suggested troubleshooting steps included checking Docker Desktop and verifying that the Docker Engine was running.
+
+After starting Docker Desktop, I retried the build and successfully created the image.
+
+### 3. How I Verified AI Suggestions
+
+I did not rely only on the AI-generated instructions.
+
+I executed the suggested commands locally and checked the results.
+
+I successfully:
+
+- Built the Docker image.
+- Ran the Health Monitor inside a container.
+- Verified the HTTP status codes and health classifications.
+- Confirmed that the application generated its monitoring summary.
+- Ran the application with a bind mount to connect the reports directory to the host filesystem.
+
+### 4. What I Learned
+
+Using ChatGPT helped me understand Docker concepts and investigate errors.
+
+I learned the importance of verifying AI suggestions through practical testing rather than assuming they are correct.
+
+I also gained experience using Docker to package and execute a Python application.
